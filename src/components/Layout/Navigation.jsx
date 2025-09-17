@@ -55,7 +55,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
               <Leaf className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">EcoLearn</h1>
+              <h1 className="text-xl font-bold text-gray-900">EcoPlay</h1>
               <p className="text-xs text-green-600 capitalize">{user?.role} Portal</p>
             </div>
           </div>

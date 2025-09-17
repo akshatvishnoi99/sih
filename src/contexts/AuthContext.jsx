@@ -6,19 +6,19 @@ const AuthContext = createContext(undefined);
 const mockUsers = [
   {
     id: '1',
-    name: 'Emma Green',
-    email: 'emma@student.edu',
+    name: 'Rahul Sharma',
+    email: 'rahul@student.edu',
     role: 'student',
     ecoPoints: 2450,
     badges: [
-      { id: '1', name: 'Eco Warrior', description: 'Completed 10 challenges', icon: '🌱', earnedAt: '2024-01-15' },
-      { id: '2', name: 'Quiz Master', description: 'Scored 100% on 5 quizzes', icon: '🧠', earnedAt: '2024-01-20' }
+      { id: '1', name: 'Eco Warrior', description: 'Completed 10 challenges', icon: '🌱', earnedAt: '2025-01-15' },
+      { id: '2', name: 'Quiz Master', description: 'Scored 100% on 5 quizzes', icon: '🧠', earnedAt: '2025-01-20' }
     ]
   },
   {
     id: '2',
-    name: 'Greenfield High School',
-    email: 'admin@greenfield.edu',
+    name: 'XYZ Public School',
+    email: 'admin@xyz.edu',
     role: 'school',
     schoolId: 'school-1'
   },

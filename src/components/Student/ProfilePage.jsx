@@ -7,20 +7,20 @@ const ProfilePage = () => {
 
   // Mock additional data
   const achievements = [
-    { id: '1', name: 'First Steps', description: 'Completed your first challenge', icon: '👣', earnedAt: '2024-01-10' },
-    { id: '2', name: 'Eco Warrior', description: 'Completed 10 challenges', icon: '🌱', earnedAt: '2024-01-15' },
-    { id: '3', name: 'Quiz Master', description: 'Scored 100% on 5 quizzes', icon: '🧠', earnedAt: '2024-01-20' },
-    { id: '4', name: 'Water Guardian', description: 'Completed all water conservation challenges', icon: '💧', earnedAt: '2024-01-18' },
-    { id: '5', name: 'Green Streak', description: 'Completed challenges for 7 consecutive days', icon: '🔥', earnedAt: '2024-01-22' },
-    { id: '6', name: 'Knowledge Seeker', description: 'Completed 5 different quiz categories', icon: '📚', earnedAt: '2024-01-25' }
+    { id: '1', name: 'First Steps', description: 'Completed your first challenge', icon: '👣', earnedAt: '2025-01-10' },
+    { id: '2', name: 'Eco Warrior', description: 'Completed 10 challenges', icon: '🌱', earnedAt: '2025-01-15' },
+    { id: '3', name: 'Quiz Master', description: 'Scored 100% on 5 quizzes', icon: '🧠', earnedAt: '2025-01-20' },
+    { id: '4', name: 'Water Guardian', description: 'Completed all water conservation challenges', icon: '💧', earnedAt: '2025-01-18' },
+    { id: '5', name: 'Green Streak', description: 'Completed challenges for 7 consecutive days', icon: '🔥', earnedAt: '2025-01-22' },
+    { id: '6', name: 'Knowledge Seeker', description: 'Completed 5 different quiz categories', icon: '📚', earnedAt: '2025-01-25' }
   ];
 
   const activityHistory = [
-    { id: '1', type: 'challenge', title: 'Water Conservation Week', points: 150, date: '2024-01-20', status: 'completed' },
-    { id: '2', type: 'quiz', title: 'Climate Change Fundamentals', points: 125, date: '2024-01-18', status: 'completed' },
-    { id: '3', type: 'challenge', title: 'Plastic-Free Day', points: 100, date: '2024-01-15', status: 'completed' },
-    { id: '4', type: 'quiz', title: 'Water Conservation Basics', points: 100, date: '2024-01-12', status: 'completed' },
-    { id: '5', type: 'challenge', title: 'Energy Audit Challenge', points: 250, date: '2024-01-10', status: 'completed' }
+    { id: '1', type: 'challenge', title: 'Water Conservation Week', points: 150, date: '2025-01-20', status: 'completed' },
+    { id: '2', type: 'quiz', title: 'Climate Change Fundamentals', points: 125, date: '2025-01-18', status: 'completed' },
+    { id: '3', type: 'challenge', title: 'Plastic-Free Day', points: 100, date: '2025-01-15', status: 'completed' },
+    { id: '4', type: 'quiz', title: 'Water Conservation Basics', points: 100, date: '2025-01-12', status: 'completed' },
+    { id: '5', type: 'challenge', title: 'Energy Audit Challenge', points: 250, date: '2025-01-10', status: 'completed' }
   ];
 
   const stats = [
