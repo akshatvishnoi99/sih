@@ -48,8 +48,8 @@ const NGODashboard = () => {
       description: 'Raising awareness about water conservation and access',
       schools: 15,
       participants: 4250,
-      startDate: '2024-01-15',
-      endDate: '2024-03-15',
+      startDate: '2025-01-15',
+      endDate: '2025-03-15',
       progress: 68,
       status: 'active'
     },
@@ -59,8 +59,8 @@ const NGODashboard = () => {
       description: 'Reducing waste generation in educational institutions',
       schools: 23,
       participants: 6800,
-      startDate: '2024-02-01',
-      endDate: '2024-04-30',
+      startDate: '2025-02-01',
+      endDate: '2025-04-30',
       progress: 45,
       status: 'active'
     },
@@ -70,19 +70,19 @@ const NGODashboard = () => {
       description: 'Promoting sustainable transportation methods',
       schools: 18,
       participants: 3200,
-      startDate: '2024-02-20',
-      endDate: '2024-02-26',
+      startDate: '2025-02-20',
+      endDate: '2025-02-26',
       progress: 92,
       status: 'active'
     }
   ];
 
   const topSchools = [
-    { name: 'Greenfield High School', participants: 892, points: 487230, location: 'Seattle, WA' },
-    { name: 'Oakwood Academy', participants: 756, points: 423180, location: 'Portland, OR' },
-    { name: 'Riverside College', participants: 634, points: 378450, location: 'San Francisco, CA' },
-    { name: 'Mountain View School', participants: 589, points: 334290, location: 'Denver, CO' },
-    { name: 'Coastal Prep', participants: 521, points: 298760, location: 'San Diego, CA' }
+    { name: 'XYZ Public School', participants: 892, points: 487230, location: 'Kanpur,UP' },
+    { name: 'ABC International School', participants: 756, points: 423180, location: 'Lucknow,UP' },
+    { name: 'Aryan Public School', participants: 634, points: 378450, location: 'Varansai,UP' },
+    { name: 'SSM International School', participants: 589, points: 334290, location: 'Prayagraj,UP' },
+    { name: 'Subash Public School', participants: 521, points: 298760, location: 'Gorakhpur,UP' }
   ];
 
   const recentUpdates = [

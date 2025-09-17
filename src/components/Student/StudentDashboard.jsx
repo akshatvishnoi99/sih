@@ -31,11 +31,11 @@ const StudentDashboard = () => {
   ];
 
   const leaderboard = [
-    { userId: '2', name: 'Alex Chen', ecoPoints: 2850, rank: 1 },
-    { userId: '1', name: 'Emma Green', ecoPoints: 2450, rank: 2 },
+    { userId: '2', name: 'Raman', ecoPoints: 2850, rank: 1 },
+    { userId: '1', name: 'Rahul Shukla', ecoPoints: 2450, rank: 2 },
     { userId: '3', name: 'Maya Patel', ecoPoints: 2200, rank: 3 },
-    { userId: '4', name: 'Sam Johnson', ecoPoints: 1980, rank: 4 },
-    { userId: '5', name: 'Zoe Williams', ecoPoints: 1750, rank: 5 }
+    { userId: '4', name: 'Sameer Kumar', ecoPoints: 1980, rank: 4 },
+    { userId: '5', name: 'Anup Pandey', ecoPoints: 1750, rank: 5 }
   ];
 
   const stats = [

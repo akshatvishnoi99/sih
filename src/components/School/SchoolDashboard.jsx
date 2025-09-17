@@ -42,11 +42,11 @@ const SchoolDashboard = () => {
   ];
 
   const topStudents = [
-    { name: 'Emma Green', points: 2450, rank: 1, grade: '10th' },
-    { name: 'Alex Chen', points: 2380, rank: 2, grade: '11th' },
+    { name: 'Raman', points: 2450, rank: 1, grade: '10th' },
+    { name: 'Rahul Sharma', points: 2380, rank: 2, grade: '11th' },
     { name: 'Maya Patel', points: 2200, rank: 3, grade: '9th' },
-    { name: 'Sam Johnson', points: 1980, rank: 4, grade: '12th' },
-    { name: 'Zoe Williams', points: 1750, rank: 5, grade: '10th' }
+    { name:'Sameer Kumar', points: 1980, rank: 4, grade: '12th' },
+    { name: 'Anup Pandey', points: 1750, rank: 5, grade: '10th' }
   ];
 
   const recentActivities = [

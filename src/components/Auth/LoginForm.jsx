@@ -27,8 +27,8 @@ const LoginForm = () => {
   };
 
   const demoCredentials = [
-    { role: 'student', email: 'emma@student.edu', name: 'Emma Green (Student)' },
-    { role: 'school', email: 'admin@greenfield.edu', name: 'Greenfield High (School)' },
+    { role: 'student', email: 'rahul@student.edu', name: 'Rahul Sharma (Student)' },
+    { role: 'school', email: 'admin@xyz.edu', name: 'XYZ Public School (School)' },
     { role: 'ngo', email: 'contact@ecofuture.org', name: 'EcoFuture NGO' }
   ];
 
@@ -48,7 +48,7 @@ const LoginForm = () => {
               <Leaf className="h-8 w-8 text-white" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">EcoLearn Platform</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">EcoPLay Platform</h1>
           <p className="text-gray-600">Gamified Environmental Education</p>
         </div>
 
