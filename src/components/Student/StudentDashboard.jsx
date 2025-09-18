@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Trophy, Target, Brain, TrendingUp, Award, Users } from 'lucide-react';
+import { studentAPI } from '../../services/api';
+import { Trophy, Target, Brain, Award, Users } from 'lucide-react';
 
 const StudentDashboard = () => {
   const { user } = useAuth();
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [currentRank, setCurrentRank] = useState(null);
+  const [loadingLeaderboard, setLoadingLeaderboard] = useState(true);
+  const [leaderboardType, setLeaderboardType] = useState('global'); // 'global' or 'school'
+
+  // Load leaderboard and rank data
+  useEffect(() => {
+    const loadLeaderboardData = async () => {
+      if (!user) return;
+      
+      try {
+        setLoadingLeaderboard(true);
+        
+        // Load leaderboard and current rank in parallel
+        // The backend now automatically uses the student's school ID from their token
+        const [leaderboardData, rankData] = await Promise.all([
+          studentAPI.getLeaderboard(leaderboardType, 10), // 'global' or 'school'
+          studentAPI.getStudentRank(leaderboardType) // 'global' or 'school'
+        ]);
+        
+        setLeaderboard(leaderboardData);
+        setCurrentRank(rankData);
+      } catch (error) {
+        console.error('Failed to load leaderboard:', error);
+        // Fallback to empty data
+        setLeaderboard([]);
+        setCurrentRank(null);
+      } finally {
+        setLoadingLeaderboard(false);
+      }
+    };
+
+    loadLeaderboardData();
+  }, [user, leaderboardType]);
 
   // Mock data
   const recentChallenges = [
@@ -30,14 +65,6 @@ const StudentDashboard = () => {
     }
   ];
 
-  const leaderboard = [
-    { userId: '2', name: 'Raman', ecoPoints: 2850, rank: 1 },
-    { userId: '1', name: 'Rahul Shukla', ecoPoints: 2450, rank: 2 },
-    { userId: '3', name: 'Maya Patel', ecoPoints: 2200, rank: 3 },
-    { userId: '4', name: 'Sameer Kumar', ecoPoints: 1980, rank: 4 },
-    { userId: '5', name: 'Anup Pandey', ecoPoints: 1750, rank: 5 }
-  ];
-
   const stats = [
     {
       title: 'Total Eco-Points',
@@ -49,15 +76,15 @@ const StudentDashboard = () => {
     },
     {
       title: 'Challenges Completed',
-      value: '12',
+      value: user?.challengesCompleted?.toString() || '0',
       icon: Target,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200'
     },
     {
-      title: 'Quizzes Passed',
-      value: '8',
+      title: 'Quizzes Taken',
+      value: user?.quizzesTaken?.toString() || '0',
       icon: Brain,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
@@ -65,8 +92,8 @@ const StudentDashboard = () => {
     },
     {
       title: 'Current Rank',
-      value: '#2',
-      icon: TrendingUp,
+      value: currentRank ? `#${currentRank.rank}` : '#-',
+      icon: Trophy,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
       borderColor: 'border-purple-200'
@@ -195,35 +222,80 @@ const StudentDashboard = () => {
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Leaderboard</h3>
-              <Users className="h-5 w-5 text-purple-600" />
+              <div className="flex items-center space-x-2">
+                {user?.studentId && (
+                  <div className="flex bg-gray-100 rounded-lg p-1">
+                    <button
+                      onClick={() => setLeaderboardType('global')}
+                      className={`px-2 py-1 rounded text-xs font-medium transition-colors duration-200 ${
+                        leaderboardType === 'global' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600'
+                      }`}
+                    >
+                      Global
+                    </button>
+                    <button
+                      onClick={() => setLeaderboardType('school')}
+                      className={`px-2 py-1 rounded text-xs font-medium transition-colors duration-200 ${
+                        leaderboardType === 'school' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600'
+                      }`}
+                    >
+                      School
+                    </button>
+                  </div>
+                )}
+                <Users className="h-5 w-5 text-purple-600" />
+              </div>
             </div>
             
-            <div className="space-y-3">
-              {leaderboard.slice(0, 5).map((entry) => (
-                <div 
-                  key={entry.userId} 
-                  className={`flex items-center justify-between p-2 rounded-lg ${
-                    entry.userId === user?.id ? 'bg-green-50 border border-green-200' : 'hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                      entry.rank <= 3 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-600'
-                    }`}>
-                      {entry.rank}
-                    </span>
-                    <div>
-                      <p className="font-medium text-gray-900 text-sm">
-                        {entry.name} {entry.userId === user?.id && '(You)'}
-                      </p>
+            {loadingLeaderboard ? (
+              <div className="space-y-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg animate-pulse">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                      <div className="h-4 bg-gray-300 rounded w-24"></div>
                     </div>
+                    <div className="h-4 bg-gray-300 rounded w-12"></div>
                   </div>
-                  <span className="text-sm font-semibold text-green-600">
-                    {entry.ecoPoints.toLocaleString()}
-                  </span>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : leaderboard.length > 0 ? (
+              <div className="space-y-3">
+                {leaderboard.slice(0, 5).map((entry) => (
+                  <div 
+                    key={entry.userId} 
+                    className={`flex items-center justify-between p-2 rounded-lg ${
+                      entry.userId === user?.id ? 'bg-green-50 border border-green-200' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                        entry.rank <= 3 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-600'
+                      }`}>
+                        {entry.rank}
+                      </span>
+                      <div>
+                        <p className="font-medium text-gray-900 text-sm">
+                          {entry.name} {entry.userId === user?.id && '(You)'}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {entry.challengesCompleted} challenges • {entry.badges} badges
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-sm font-semibold text-green-600">
+                      {entry.ecoPoints.toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-6 text-gray-500">
+                <Users className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                <p>No students found</p>
+                <p className="text-sm">Be the first to earn eco-points!</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

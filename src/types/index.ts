@@ -2,12 +2,23 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'student' | 'school' | 'ngo';
+  role: 'student' | 'school' | 'ngo' | 'admin';
   avatar?: string;
-  ecoPoints?: number;
-  badges?: Badge[];
-  schoolId?: string;
-  ngoId?: string;
+  ecoPoints: number;
+  badges: Badge[];
+  challengesCompleted: number;
+  quizzesTaken: number;
+  // Additional fields for different roles
+  studentId?: string; // For student role - links to selected school
+  ngoId?: string; // For ngo role
+  grade?: string; // For student role
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface School {
+  _id: string;
+  name: string;
 }
 
 export interface Badge {

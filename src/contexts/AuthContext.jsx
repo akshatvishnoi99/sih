@@ -1,72 +1,94 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authAPI, healthCheck } from '../services/api';
 
 const AuthContext = createContext(undefined);
-
-// Mock users for demonstration
-const mockUsers = [
-  {
-    id: '1',
-    name: 'Rahul Sharma',
-    email: 'rahul@student.edu',
-    role: 'student',
-    ecoPoints: 2450,
-    badges: [
-      { id: '1', name: 'Eco Warrior', description: 'Completed 10 challenges', icon: '🌱', earnedAt: '2025-01-15' },
-      { id: '2', name: 'Quiz Master', description: 'Scored 100% on 5 quizzes', icon: '🧠', earnedAt: '2025-01-20' }
-    ]
-  },
-  {
-    id: '2',
-    name: 'XYZ Public School',
-    email: 'admin@xyz.edu',
-    role: 'school',
-    schoolId: 'school-1'
-  },
-  {
-    id: '3',
-    name: 'EcoFuture NGO',
-    email: 'contact@ecofuture.org',
-    role: 'ngo',
-    ngoId: 'ngo-1'
-  }
-];
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [backendConnected, setBackendConnected] = useState(false);
 
   useEffect(() => {
-    // Check for stored user session
-    const storedUser = localStorage.getItem('eco-platform-user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
+    // Check for stored user session and backend connection
+    const checkAuthStatus = async () => {
+      // First check if backend is available
+      const isBackendHealthy = await healthCheck();
+      setBackendConnected(isBackendHealthy);
+      
+      if (!isBackendHealthy) {
+        console.warn('Backend is not available. Using stored user data if available.');
+        const storedUser = localStorage.getItem('eco-platform-user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+        setLoading(false);
+        return;
+      }
+      
+      const token = localStorage.getItem('eco-platform-token');
+      if (token) {
+        try {
+          const userData = await authAPI.getProfile();
+          setUser(userData);
+        } catch (error) {
+          console.error('Auth check failed:', error);
+          // Token might be invalid, clear storage
+          localStorage.removeItem('eco-platform-token');
+          localStorage.removeItem('eco-platform-user');
+        }
+      }
+      setLoading(false);
+    };
+
+    checkAuthStatus();
   }, []);
 
-  const login = async (email, password, role) => {
+  const login = async (email, password) => {
     setLoading(true);
-
-    // Mock authentication
-    const foundUser = mockUsers.find(u => u.email === email && u.role === role);
-
-    if (foundUser) {
-      setUser(foundUser);
-      localStorage.setItem('eco-platform-user', JSON.stringify(foundUser));
-    } else {
-      throw new Error('Invalid credentials');
+    try {
+      const response = await authAPI.login(email, password);
+      const { token, user: userData } = response;
+      
+      // Store token and user data
+      localStorage.setItem('eco-platform-token', token);
+      localStorage.setItem('eco-platform-user', JSON.stringify(userData));
+      setUser(userData);
+      
+      setLoading(false);
+      return userData;
+    } catch (error) {
+      setLoading(false);
+      throw new Error(error.response?.data?.msg || 'Login failed');
     }
+  };
 
-    setLoading(false);
+  const register = async (name, email, password, role, additionalFields = {}) => {
+    setLoading(true);
+    try {
+      const response = await authAPI.register(name, email, password, role, additionalFields);
+      const { token, user: userData } = response;
+      
+      // Store token and user data
+      localStorage.setItem('eco-platform-token', token);
+      localStorage.setItem('eco-platform-user', JSON.stringify(userData));
+      setUser(userData);
+      
+      setLoading(false);
+      return userData;
+    } catch (error) {
+      setLoading(false);
+      throw new Error(error.response?.data?.msg || 'Registration failed');
+    }
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('eco-platform-token');
     localStorage.removeItem('eco-platform-user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, backendConnected }}>
       {children}
     </AuthContext.Provider>
   );
